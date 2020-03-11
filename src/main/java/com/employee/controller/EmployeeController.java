@@ -1,12 +1,13 @@
 package com.employee.controller;
 
+import com.employee.config.EmpConfig;
 import com.employee.model.Employee;
 import com.employee.service.EmployeeService;
 import com.employee.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -14,6 +15,19 @@ import java.util.List;
 public class EmployeeController {
 
     EmployeeService employeeService = new EmployeeServiceImpl();
+
+    @Autowired
+    private EmpConfig empConfig;
+
+    @GetMapping("/defaultFromPropFile")
+    public HashMap<String, Object> getDefaultEmployee() {
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("id",empConfig.getId());
+        map.put("name",empConfig.getName());
+        map.put("salary",empConfig.getSalary());
+
+        return map;
+    }
 
     /**
      * To get all employee details.
@@ -34,11 +48,6 @@ public class EmployeeController {
         return employeeService.getEmployee(id);
     }
 
-    /**
-     * To add employee
-     * @param employee
-     * @return
-     */
     @PostMapping("/add")
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);
