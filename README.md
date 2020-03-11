@@ -12,3 +12,4 @@ Project contains
 3. Configure logback for logging  -->
     3.1 Using properties file --> LogsUsingLogback
     3.2 Using xml cofiguration --> logback.xml[Not working in this project]
+    
