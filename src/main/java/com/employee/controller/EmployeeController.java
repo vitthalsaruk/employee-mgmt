@@ -1,69 +1,56 @@
 package com.employee.controller;
 
-import com.employee.config.EmpConfig;
 import com.employee.model.Employee;
 import com.employee.service.EmployeeService;
-import com.employee.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/emp")
+@RequestMapping("/employees")
 public class EmployeeController {
 
-    EmployeeService employeeService = new EmployeeServiceImpl();
+    private final EmployeeService employeeService;
 
     @Autowired
-    private EmpConfig empConfig;
-
-    @GetMapping("/defaultFromPropFile")
-    public HashMap<String, Object> getDefaultEmployee() {
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("id",empConfig.getId());
-        map.put("name",empConfig.getName());
-        map.put("salary",empConfig.getSalary());
-
-        return map;
+    public EmployeeController(EmployeeService employeeService) {
+        System.out.println("In service => "+employeeService);
+        this.employeeService = employeeService;
     }
 
-    /**
-     * To get all employee details.
-     * @return
-     */
-    @GetMapping("/all")
+    @GetMapping()
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployee();
     }
 
-    /**
-     * To get particular employee
-     * @param id
-     * @return
-     */
-    @GetMapping()
-    public Employee getEmployee(@RequestParam int id) {
+    @GetMapping("/{id}")
+    public Employee getEmployee(@PathVariable("id") int id) {
         return employeeService.getEmployee(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public Employee addEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);
     }
 
-    @PatchMapping("/update")
-    public List<Employee> updateEmployee(@RequestParam int id, @RequestBody Employee employee){
-        return employeeService.updateEmployee(id,employee);
+    @PutMapping("/{id}")
+    public Employee updateEmployee(@PathVariable Integer id, @RequestBody Employee employee){
+        return employeeService.updateEmployee(id, employee);
     }
 
-    @DeleteMapping("/delete")
-    public Employee deleteEmployee(@RequestParam int id) {
-        return employeeService.deleteEmployee(id);
+    @PatchMapping("/{id}")
+    public Employee updateEmployeeUsingPatch(@PathVariable Integer id, @RequestBody Employee employee){
+        return employeeService.updateEmployee(id, employee);
+
     }
 
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/ping", produces = "text/plain")
+    @DeleteMapping("/{id}")
+    public void deleteEmployee(@PathVariable int id) {
+         employeeService.deleteEmployee(id);
+    }
+
+    @RequestMapping("/ping")
     public String ping() {
         return "I am up :)";
     }
