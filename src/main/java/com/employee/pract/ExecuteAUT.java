@@ -13,14 +13,10 @@ public class ExecuteAUT {
         RequestBody body = RequestBody.create(mediaType, "");
 
         Request request = new Request.Builder()
-                        .url("https://jdf-pega-devl.deere.com/prweb/PRRestService/BRMUnitTest" +
-                                "/Rule-Test-Unit-Case/ExecuteBRMTests?TestSuiteID=" +
-                                "DEERE-USCA-BRM-WORK!TS_E2EBUREAUERRORS"
-                                //+"DEERE-USCA-BRM-WORK!TS_PULLBUREAU_FROZENFILE"
-                        )
+                        .url("")
                         .method("POST", body)
                         .addHeader("Content-Type", "text/xml")
-                        .addHeader("Authorization", "Basic VVNBVVRJRDpBOCFiVnRSYQ==")
+                        .addHeader("Authorization", "Basic VVNBVVRJRDpBOCFiVnRSYQ")
                         .build();
 
         Response response = client.newCall(request).execute();
